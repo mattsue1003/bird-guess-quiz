@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>猜猜我是誰 台灣鳥朋友</title>
+<meta name="description" content="20 種台灣常見鳥的看圖、聽聲音猜鳥活動：一步一步給提示、揭曉後看知識、聽真實叫聲、看影片。適合長輩與小朋友團體帶領。">
+<meta property="og:title" content="猜猜我是誰｜台灣鳥朋友">
+<meta property="og:description" content="一步一步給提示的猜鳥活動，附真實叫聲、影片與聊天題。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;
+  --ink:#123a5a;
+  --deep:#0f5c97;
+  --blue:#1d7fcf;
+  --teal:#18a5a3;
+  --aqua:#58c8c2;
+  --mist:#eaf6f8;
+  --line:#d5e7ee;
+  --grey:#6d7c88;
+  --soft:#f4fafb;
+  --gold:#e7a72c;
+  --shadow:0 24px 60px rgba(16,74,112,.18),0 4px 14px rgba(16,74,112,.10);
+  --r:28px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC",-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;overflow-x:hidden}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--deep)}
+.latin{font-family:"Quicksand",sans-serif}
+
+/* ---------- 背景 鵝卵石泡泡 ---------- */
+#pebbles{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+#pebbles path{mix-blend-mode:multiply}
+#pebbles{transition:opacity .5s}
+body.inner #pebbles{opacity:.4}
+.wrap>.page-title,.wrap>.qsub{display:table;background:#ffffffd9;border-radius:18px;padding:4px 14px}
+@media (prefers-reduced-motion:no-preference){
+  #pebbles g.float{animation:drift 18s ease-in-out infinite alternate}
+  #pebbles g.float.b{animation-duration:23s;animation-direction:alternate-reverse}
+}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(10px,-14px)}}
+
+.app{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column}
+.view{display:none;flex:1}
+.view.on{display:flex}
+
+/* ---------- 首頁 大白圓 ---------- */
+#home{align-items:center;justify-content:center;padding:28px 16px 70px}
+.bubble{position:relative;background:#fff;border-radius:50%;box-shadow:var(--shadow);
+  width:max(min(92vw,400px),min(92vw,720px,calc(100dvh - 96px)));aspect-ratio:1;container-type:inline-size;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:9% 11%;text-align:center}
+.bubble::before,.bubble::after{content:"";position:absolute;background:#fff;width:13%;height:13%;
+  box-shadow:6px 8px 14px rgba(16,74,112,.08)}
+.bubble::before{right:3.5%;top:22%;clip-path:polygon(0 0,100% 30%,0 100%);transform:rotate(-8deg)}
+.bubble::after{left:30%;bottom:-2.5%;clip-path:polygon(0 0,100% 0,25% 100%)}
+.ttl{line-height:1;margin:0;width:100%}
+.ttl .t1{display:block;text-align:left;padding-left:6%;font-weight:300;color:var(--teal);font-size:max(22px,9cqw)}
+.ttl .t2{display:block;font-weight:900;color:var(--deep);font-size:max(34px,15cqw);letter-spacing:.02em;margin:.06em 0}
+.ttl .t3{display:block;text-align:right;padding-right:4%;font-weight:500;color:var(--teal);font-size:max(22px,9cqw)}
+.lede{color:var(--grey);font-size:max(13px,3.15cqw);line-height:1.75;margin:4% 0 3%;max-width:30em}
+.home-actions .btn{font-size:max(15px,3.9cqw)}
+.opts .seg button{font-size:max(12px,2.6cqw)}
+.home-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.btn{border:0;border-radius:999px;padding:.72em 1.4em;font-weight:700;font-size:clamp(17px,2.2vw,22px);
+  background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff;box-shadow:0 8px 20px rgba(24,140,170,.28);
+  transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;gap:.45em;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(24,140,170,.34)}
+.btn.ghost{background:#fff;color:var(--deep);border:2px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--aqua)}
+.btn.small{font-size:16px;padding:.55em 1.05em}
+.btn svg{width:1.05em;height:1.05em}
+.opts{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin-top:4%;color:var(--grey);font-size:max(12px,2.6cqw)}
+.seg{display:inline-flex;background:var(--mist);border-radius:999px;padding:4px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:.38em .95em;font-weight:700;color:var(--grey);font-size:15px}
+.seg button.on{background:#fff;color:var(--deep);box-shadow:0 2px 8px rgba(16,74,112,.12)}
+.home-links{position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:0 16px}
+
+/* ---------- 頂列 ---------- */
+.bar{display:flex;align-items:center;gap:10px;padding:14px clamp(14px,3vw,34px);flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:.5em;font-weight:900;color:var(--deep);font-size:clamp(19px,2.2vw,26px);background:#fffc;border-radius:999px;padding:.25em .9em;box-shadow:0 2px 10px rgba(16,74,112,.08);border:0}
+.brand small{font-weight:500;color:var(--teal);font-size:.7em}
+.bar .sp{flex:1}
+.pill{background:#fff;border:2px solid var(--line);border-radius:999px;padding:.4em .95em;font-weight:700;color:var(--deep);font-size:16px;display:inline-flex;align-items:center;gap:.4em}
+.icon-btn{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.42em .9em;font-weight:700;color:var(--deep);font-size:16px;display:inline-flex;gap:.35em;align-items:center}
+.icon-btn:hover{border-color:var(--aqua)}
+.icon-btn svg{width:18px;height:18px}
+
+/* ---------- 猜鳥頁 ---------- */
+#quiz{flex-direction:column}
+.stage{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:clamp(18px,3vw,44px);align-items:center;
+  padding:6px clamp(14px,3.4vw,48px) 40px;max-width:1500px;width:100%;margin:0 auto}
+.photo-wrap{position:relative;justify-self:center;width:min(100%,64vh,600px);aspect-ratio:1}
+.photo{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:#fff;border:clamp(10px,1.4vw,18px) solid #fff;box-shadow:var(--shadow)}
+.photo img{width:100%;height:100%;object-fit:cover;transition:filter .8s ease,transform .8s ease}
+.photo .veil{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,#ffffff 0,#eaf6f8 70%);transition:opacity .6s}
+.photo .veil.hide{opacity:0;pointer-events:none}
+.veil-in{text-align:center;color:var(--deep);font-weight:700;font-size:clamp(18px,2.2vw,24px)}
+.veil-in .big-play{width:clamp(90px,12vw,130px);height:clamp(90px,12vw,130px);border-radius:50%;border:0;background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff;display:grid;place-items:center;margin:0 auto 12px;box-shadow:0 10px 26px rgba(24,140,170,.35)}
+.veil-in .big-play svg{width:45%;height:45%}
+.qnum{position:absolute;left:-2%;top:2%;width:clamp(64px,8vw,92px);aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 8px 20px rgba(16,74,112,.15);
+  display:grid;place-items:center;font-family:Quicksand,sans-serif;font-weight:700;color:var(--teal);font-size:clamp(26px,3.4vw,40px);line-height:1}
+.qnum small{display:block;font-size:.4em;color:var(--grey);margin-top:2px}
+.stars{position:absolute;right:2%;bottom:4%;background:#fff;border-radius:999px;padding:.35em .8em;font-weight:700;color:var(--gold);box-shadow:0 6px 16px rgba(16,74,112,.14);font-size:clamp(14px,1.6vw,18px);display:none}
+
+.card{position:relative;background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:clamp(20px,2.6vw,36px)}
+.card.tail::before{content:"";position:absolute;left:-26px;top:76px;width:34px;height:40px;background:#fff;clip-path:polygon(100% 0,0 50%,100% 100%)}
+.qhead{margin:0 0 4px;line-height:1.05}
+.qhead .a{display:block;color:var(--teal);font-weight:400;font-size:clamp(22px,2.6vw,32px)}
+.qhead .b{display:block;color:var(--deep);font-weight:900;font-size:clamp(36px,4.6vw,60px)}
+.qsub{color:var(--grey);margin:6px 0 16px;font-size:clamp(15px,1.5vw,18px)}
+.hint-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.hbtn{border:2px solid var(--line);background:var(--soft);border-radius:18px;padding:.6em .5em;font-weight:700;color:var(--deep);
+  font-size:clamp(16px,1.7vw,21px);display:flex;align-items:center;justify-content:center;gap:.45em;transition:.15s}
+.hbtn .n{width:1.55em;height:1.55em;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--teal);font-family:Quicksand;font-size:.85em;border:2px solid var(--line)}
+.hbtn:hover{border-color:var(--aqua);background:#fff}
+.hbtn.used{background:#e6f5f4;border-color:#bfe5e2;color:#4f8d8b}
+.hbtn.used .n{background:var(--teal);color:#fff;border-color:var(--teal)}
+.hints{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px;max-height:min(38vh,420px);overflow:auto}
+.hints li{display:flex;gap:12px;align-items:flex-start;background:var(--soft);border-radius:18px;padding:12px 16px;
+  font-size:clamp(18px,2vw,25px);line-height:1.55;animation:pop .35s ease}
+.hints li .tag{flex:none;font-size:.62em;font-weight:900;color:#fff;background:var(--blue);border-radius:999px;padding:.3em .8em;margin-top:.35em}
+.hints li.k-color .tag{background:#2a9fd6}.hints li.k-place .tag{background:var(--teal)}.hints li.k-call .tag{background:#3c6fc4}
+.hints li.k-fame .tag{background:#0f8a8a}.hints li.k-len .tag{background:var(--gold)}.hints li.k-choice .tag{background:#7a8fa0}
+.hints .mini-play{border:0;background:var(--teal);color:#fff;border-radius:999px;padding:.15em .8em;font-weight:700;font-size:.78em;margin-left:.3em;vertical-align:middle}
+.choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.choices button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.35em 1em;font-weight:700;color:var(--deep);font-size:.95em}
+.choices button.right{background:#e3f6ef;border-color:#76c9a4;color:#1d7a52}
+.choices button.wrong{background:#f6f0f0;border-color:#e2c1c1;color:#a06060;text-decoration:line-through}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.reveal-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;align-items:center}
+.reveal-row .btn{font-size:clamp(19px,2.2vw,26px)}
+.empty-tip{color:var(--grey);font-size:clamp(15px,1.5vw,18px);margin-top:14px;line-height:1.7}
+.kbd{display:inline-block;border:1.5px solid var(--line);border-radius:6px;padding:0 .4em;font-family:Quicksand;font-size:.85em;background:#fff}
+
+/* ---------- 答案 ---------- */
+#answer{flex-direction:column}
+.ans{max-width:1240px;width:100%;margin:0 auto;padding:4px clamp(14px,3vw,40px) 50px;display:flex;flex-direction:column;gap:22px}
+.ans-hero{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,3vw,40px);align-items:center}
+.ans-hero .photo-wrap{width:clamp(200px,30vw,380px)}
+.ans-name{line-height:1}
+.ans-name .a{display:block;color:var(--teal);font-size:clamp(22px,2.6vw,32px);font-weight:400}
+.ans-name .b{display:block;color:var(--deep);font-weight:900;font-size:clamp(52px,8vw,108px);letter-spacing:.03em;margin:.08em 0}
+.ans-name .c{display:block;text-align:right;color:var(--teal);font-size:clamp(18px,2.2vw,28px);font-style:italic;font-family:Quicksand}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.badge{border-radius:999px;padding:.35em .9em;font-weight:700;font-size:clamp(14px,1.5vw,17px);background:var(--mist);color:var(--deep)}
+.badge.end{background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff}
+.badge.note{background:#fff6e6;color:#a4700f}
+.ans-meta{color:var(--grey);margin-top:10px;font-size:clamp(15px,1.6vw,18px)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card h3{margin:0 0 10px;color:var(--deep);font-size:clamp(20px,2.1vw,26px);display:flex;align-items:center;gap:.45em}
+.card h3 .dot{width:.7em;height:.7em;border-radius:50%;background:var(--teal);flex:none}
+.card p,.card li{font-size:clamp(17px,1.8vw,21px);line-height:1.75;margin:0}
+.facts{margin:0;padding:0;list-style:none;counter-reset:f;display:flex;flex-direction:column;gap:10px}
+.facts li{counter-increment:f;display:flex;gap:12px}
+.facts li::before{content:counter(f);flex:none;width:1.7em;height:1.7em;border-radius:50%;background:var(--mist);color:var(--teal);font-weight:700;display:grid;place-items:center;font-family:Quicksand;margin-top:.15em}
+.talk{display:flex;flex-direction:column;gap:10px}
+.talk div{background:var(--soft);border-left:6px solid var(--aqua);border-radius:12px;padding:10px 14px}
+.kidq{background:#fff8ea;border-left-color:var(--gold)!important}
+.sound{display:flex;flex-direction:column;gap:12px}
+.player{display:flex;align-items:center;gap:14px;background:var(--soft);border-radius:999px;padding:8px 16px 8px 8px}
+.player .pp{width:58px;height:58px;border-radius:50%;border:0;background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff;display:grid;place-items:center;flex:none}
+.player .pp svg{width:26px;height:26px}
+.player .track{flex:1;height:10px;background:#d9ecf0;border-radius:99px;overflow:hidden;cursor:pointer}
+.player .track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--teal))}
+.player .tm{font-family:Quicksand;font-weight:700;color:var(--grey);min-width:3.2em;text-align:right}
+.credit{color:var(--grey);font-size:14px!important;line-height:1.6!important}
+.linkrow{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:.4em;border:2px solid var(--line);border-radius:999px;padding:.38em .95em;text-decoration:none;font-weight:700;color:var(--deep);background:#fff;font-size:16px}
+.chip:hover{border-color:var(--aqua)}
+.chip svg{width:16px;height:16px}
+.vids{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:12px}
+.vid{border-radius:18px;overflow:hidden;background:var(--soft);border:2px solid var(--line);display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.vid .th{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#d9eef3,#eaf6f8);display:grid;place-items:center;overflow:hidden}
+.vid .th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid .th .pl{position:relative;width:64px;height:64px;border-radius:50%;background:rgba(15,92,151,.85);display:grid;place-items:center;color:#fff}
+.vid .th .pl svg{width:28px;height:28px;margin-left:4px}
+.vid .th iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .cap{padding:10px 14px;font-size:15px;line-height:1.5}
+.vid .cap b{display:block;color:var(--ink);font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vid .cap span{color:var(--grey)}
+.ans-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- 圖鑑 ---------- */
+#gallery,#sounds,#guide{flex-direction:column}
+.wrap{max-width:1240px;width:100%;margin:0 auto;padding:4px clamp(14px,3vw,40px) 50px}
+.page-title{margin:6px 0 4px;line-height:1.05}
+.page-title .a{display:block;color:var(--teal);font-size:clamp(20px,2.4vw,28px);font-weight:400}
+.page-title .b{display:block;color:var(--deep);font-size:clamp(34px,4.6vw,56px);font-weight:900}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px}
+.gitem{border:0;background:#fff;border-radius:24px;padding:14px 10px 12px;box-shadow:0 10px 26px rgba(16,74,112,.10);display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .15s}
+.gitem:hover{transform:translateY(-3px)}
+.gitem img{width:78%;aspect-ratio:1;border-radius:50%;object-fit:cover;border:5px solid var(--mist)}
+.gitem b{font-size:20px;color:var(--deep)}
+.gitem span{font-size:13px;color:var(--grey);font-family:Quicksand;font-style:italic}
+.gitem .e{font-size:12px;font-weight:700;color:#fff;background:var(--teal);border-radius:999px;padding:.1em .7em;font-style:normal;font-family:inherit}
+.db{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
+.db .card p{font-size:clamp(16px,1.6vw,19px)}
+.db .card .chip{margin-top:12px}
+.answer-box{font-size:clamp(18px,1.9vw,22px);line-height:1.8}
+.answer-box b{color:var(--deep)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.steps li{counter-increment:s;display:flex;gap:14px;font-size:clamp(17px,1.8vw,21px);line-height:1.7}
+.steps li::before{content:counter(s);flex:none;width:1.8em;height:1.8em;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff;display:grid;place-items:center;font-family:Quicksand;font-weight:700;margin-top:.1em}
+table.cr{width:100%;border-collapse:collapse;font-size:14px;color:var(--grey)}
+table.cr td,table.cr th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+table.cr th{color:var(--deep)}
+.sign{text-align:center;color:var(--grey);font-size:14px;padding:16px;position:relative;z-index:1}
+.sign b{color:var(--deep)}
+#home .sign{position:absolute;bottom:0;left:0;right:0;padding:0 0 4px;font-size:12px}
+
+/* ---------- 響應式 ---------- */
+@media (max-width:900px){
+  .stage{grid-template-columns:1fr;padding-top:0}
+  .photo-wrap{width:min(78vw,420px)}
+  .card.tail::before{left:50%;top:-24px;transform:translateX(-50%) rotate(90deg)}
+  .hints{max-height:none}
+  .ans-hero{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .ans-name .c{text-align:center}
+  .badges{justify-content:center}
+  .grid2,.vids,.db{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .hint-btns{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bubble{width:calc(100vw - 24px);aspect-ratio:auto;border-radius:56px;padding:34px 18px 30px;container-type:normal}
+  .ttl .t1{font-size:30px;padding-left:4%}.ttl .t2{font-size:46px}.ttl .t3{font-size:30px;padding-right:2%}
+  .lede{font-size:15px}.home-actions .btn{font-size:17px}.opts,.opts .seg button{font-size:13px}
+  .bubble::before{display:none}
+  .brand small{display:none}
+  .bar{gap:6px;padding:10px 12px}
+  #quiz .bar .icon-btn[data-go]{display:none}
+  .lede{font-size:14px;margin:3% 0}
+  .btn{font-size:16px}
+  .opts{font-size:13px}
+  .bar .hide-s{display:none}
+  .home-links{position:static;margin-top:18px}
+  #home{flex-direction:column}
+  #home .sign{position:static;margin-top:10px}
+}
+@media print{#pebbles{display:none}}
+</style>
+</head>
+<body>
+<svg id="pebbles" aria-hidden="true"></svg>
+<div class="app">
+
+<!-- 首頁 -->
+<section class="view on" id="home">
+  <div class="bubble">
+    <h1 class="ttl"><span class="t1">一起來</span><span class="t2">猜猜我是誰</span><span class="t3">台灣鳥朋友</span></h1>
+    <p class="lede">20 種台灣常見的鳥。先看照片或先聽叫聲，按鈕一個一個打開提示，大家猜到了再揭曉答案，一起聊聊和這隻鳥有關的回憶。</p>
+    <div class="home-actions">
+      <button class="btn" data-go="start"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>開始猜鳥</button>
+      <button class="btn ghost" data-go="gallery">鳥朋友圖鑑</button>
+    </div>
+    <div class="opts">
+      <span>玩法 <span class="seg" id="segMode"><button data-v="see" class="on">看照片猜</button><button data-v="blur">模糊照片</button><button data-v="hear">先聽叫聲</button></span></span>
+      <span>順序 <span class="seg" id="segOrder"><button data-v="seq" class="on">依序</button><button data-v="rand">隨機</button></span></span>
+    </div>
+  </div>
+  <div class="home-links">
+    <button class="btn ghost small" data-go="sounds">鳥叫聲去哪裡聽？</button>
+    <button class="btn ghost small" data-go="guide">帶領說明・來源</button>
+  </div>
+  <div class="sign">設計者｜愛迪樂　<b>鍾孟修 職能治療師</b></div>
+</section>
+
+<!-- 猜鳥 -->
+<section class="view" id="quiz">
+  <div class="bar">
+    <button class="brand" data-go="home" aria-label="回首頁">猜猜我是誰 <small>台灣鳥朋友</small></button>
+    <span class="sp"></span>
+    <span class="pill" id="qProg">1 / 20</span>
+    <button class="icon-btn" id="qPrev" aria-label="上一隻"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg><span class="hide-s">上一隻</span></button>
+    <button class="icon-btn" id="qNext" aria-label="下一隻"><span class="hide-s">下一隻</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button class="icon-btn" data-go="gallery">圖鑑</button>
+  </div>
+  <div class="stage">
+    <div class="photo-wrap">
+      <div class="photo"><img id="qImg" alt="猜猜這是什麼鳥"><div class="veil hide" id="qVeil"><div class="veil-in"><button class="big-play" id="veilPlay" aria-label="播放叫聲"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>先聽聽看，<br>這是誰的聲音？</div></div></div>
+      <div class="qnum" id="qNum">1<small>/20</small></div>
+      <div class="stars" id="qStars"></div>
+    </div>
+    <div class="card tail">
+      <h2 class="qhead"><span class="a">猜猜看，我是</span><span class="b">哪一種鳥？</span></h2>
+      <p class="qsub">按下按鈕，一次打開一個提示。猜到了就揭曉！</p>
+      <div class="hint-btns" id="hintBtns"></div>
+      <ul class="hints" id="hintList"></ul>
+      <p class="empty-tip" id="emptyTip">小技巧：先讓大家自由說說看「牠長什麼樣子」，再打開第一個提示。<br>鍵盤：<span class="kbd">空白鍵</span> 下一個提示　<span class="kbd">Enter</span> 揭曉　<span class="kbd">→</span> 下一隻</p>
+      <div class="reveal-row">
+        <button class="btn" id="revealBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>揭曉答案</button>
+        <button class="btn ghost small" id="playCall">聽叫聲</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 答案 -->
+<section class="view" id="answer">
+  <div class="bar">
+    <button class="brand" data-go="home" aria-label="回首頁">猜猜我是誰 <small>台灣鳥朋友</small></button>
+    <span class="sp"></span>
+    <span class="pill" id="aProg">1 / 20</span>
+    <button class="icon-btn" id="aBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>回到提示</button>
+    <button class="btn small" id="aNext">下一隻鳥<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+  <div class="ans" id="ansBody"></div>
+</section>
+
+<!-- 圖鑑 -->
+<section class="view" id="gallery">
+  <div class="bar">
+    <button class="brand" data-go="home" aria-label="回首頁">猜猜我是誰 <small>台灣鳥朋友</small></button>
+    <span class="sp"></span>
+    <button class="btn small" data-go="start">開始猜鳥</button>
+  </div>
+  <div class="wrap">
+    <h2 class="page-title"><span class="a">20 位</span><span class="b">鳥朋友圖鑑</span></h2>
+    <p class="qsub">點一隻鳥，直接從牠開始猜；也可以只挑某一類來玩（例如今天只玩「水邊的鳥」）。</p>
+    <div class="filters seg" id="gFilter" style="background:transparent;padding:0;gap:8px">
+      <button data-v="all" class="on chip">全部</button><button data-v="city" class="chip">都市公園</button><button data-v="water" class="chip">水邊</button><button data-v="mountain" class="chip">山林</button><button data-v="raptor" class="chip">老鷹</button><button data-v="endemic" class="chip">台灣特有種</button>
+    </div>
+    <div class="ggrid" id="gGrid"></div>
+  </div>
+</section>
+
+<!-- 鳥叫聲資料庫 -->
+<section class="view" id="sounds">
+  <div class="bar">
+    <button class="brand" data-go="home" aria-label="回首頁">猜猜我是誰 <small>台灣鳥朋友</small></button>
+    <span class="sp"></span>
+    <button class="btn small" data-go="start">開始猜鳥</button>
+  </div>
+  <div class="wrap">
+    <h2 class="page-title"><span class="a">有沒有可以聽的</span><span class="b">鳥叫聲資料庫？</span></h2>
+    <div class="card" style="margin-top:14px">
+      <p class="answer-box"><b>有，而且是免費的。</b>最推薦 <b>xeno-canto</b>（世界各地鳥友上傳的錄音，大多是 CC 創用授權，可以直接在網頁上播放），再來是 <b>eBird／麥考利圖書館</b>（康乃爾大學鳥類研究室，錄音最多、品質最好）。手機上可以裝 <b>Merlin Bird ID</b>，對著鳥叫聲錄音就能幫忙認是哪一種鳥。本網頁每一隻鳥都附了一段 xeno-canto 的真實錄音（標明錄音者與授權），揭曉答案後就能播放。</p>
+    </div>
+    <div class="db">
+      <div class="card"><h3><span class="dot"></span>xeno-canto 鳥聲資料庫</h3><p>全球最大的開放鳥聲資料庫，有超過百萬筆錄音，每一筆都標示錄音者、地點與 CC 授權。可以搜尋學名或英文名，篩選「Taiwan」只聽台灣錄的。非商業教學使用、標註來源即可。</p><a class="chip" href="https://xeno-canto.org/explore?query=cnt%3A%22Taiwan%22" target="_blank" rel="noopener">看台灣的錄音 ↗</a></div>
+      <div class="card"><h3><span class="dot"></span>eBird ／ 麥考利圖書館</h3><p>康乃爾大學鳥類研究室的資料庫，每種鳥都有物種頁面，可聽叫聲、看照片與分布地圖。錄音品質好，但授權較嚴格，請直接在他們的網站上播放，不要下載轉貼。</p><a class="chip" href="https://search.macaulaylibrary.org/catalog?regionCode=TW&mediaType=audio" target="_blank" rel="noopener">台灣鳥聲錄音 ↗</a></div>
+      <div class="card"><h3><span class="dot"></span>Merlin Bird ID（手機 App）</h3><p>免費 App，打開「聲音辨識」對著窗外錄音，就會即時顯示可能是哪一種鳥。帶長輩到公園散步、帶小朋友戶外教學時很好用。</p><a class="chip" href="https://merlin.allaboutbirds.org/" target="_blank" rel="noopener">Merlin 官網 ↗</a></div>
+      <div class="card"><h3><span class="dot"></span>台灣生物多樣性網絡 TBN</h3><p>台灣的生物分布查詢平台，可以查某種鳥在台灣哪些地方被記錄過。它主要是「分布資料」，不是聲音資料庫，適合回答「這種鳥在我們附近有沒有？」。</p><a class="chip" href="https://www.tbn.org.tw/" target="_blank" rel="noopener">TBN 網站 ↗</a></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3><span class="dot"></span>本網頁 20 隻鳥的錄音</h3>
+      <p class="credit" style="margin-bottom:10px">錄音皆取自 xeno-canto，採 CC BY-NC-SA 授權；為了上課方便，只剪取前 30 秒並調整音量。點錄音編號可到原始頁面聽完整版本。</p>
+      <div style="overflow:auto"><table class="cr" id="sndTable"></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- 帶領說明 -->
+<section class="view" id="guide">
+  <div class="bar">
+    <button class="brand" data-go="home" aria-label="回首頁">猜猜我是誰 <small>台灣鳥朋友</small></button>
+    <span class="sp"></span>
+    <button class="btn small" data-go="start">開始猜鳥</button>
+  </div>
+  <div class="wrap">
+    <h2 class="page-title"><span class="a">給帶領者的</span><span class="b">活動說明</span></h2>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h3><span class="dot"></span>怎麼帶（30–45 分鐘）</h3>
+        <ol class="steps">
+          <li>用投影或大電視開啟本頁，選玩法：長輩建議「看照片猜」，小朋友可以玩「模糊照片」或「先聽叫聲」。</li>
+          <li>先不給提示，請大家說說看「牠是什麼顏色、多大、在哪裡看過」。</li>
+          <li>猜不到就按提示：體型 → 顏色 → 住哪裡 → 叫聲 → 有名的事 → 名字字數。卡住時可以按「給選項」。</li>
+          <li>揭曉後，挑 1–2 個小知識講，再用「跟長輩聊聊」的題目讓大家分享回憶。</li>
+          <li>最後一起聽叫聲、看一小段影片，請大家學學看牠怎麼叫。</li>
+        </ol></div>
+      <div class="card"><h3><span class="dot"></span>帶領小撇步</h3>
+        <ol class="steps">
+          <li>一次玩 6–8 隻就夠，留時間聊天比答對更重要。</li>
+          <li>長輩常用台語名或小名（厝鳥仔、白鷺鷥、加令），說出小名也算答對。</li>
+          <li>失智症長輩可改用「給選項」二選一或三選一，降低挫折感。</li>
+          <li>搭配動作：學鳥拍翅膀、學白鷺鷥單腳站，順便活動身體。</li>
+          <li>影片在 GitHub 網頁版可以直接播放；若網路不穩，先播本頁內建的叫聲錄音。</li>
+        </ol></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3><span class="dot"></span>照片來源與授權</h3>
+      <p class="credit" style="margin-bottom:10px">照片皆來自維基共享資源（Wikimedia Commons），依各自 CC 授權標示作者；網頁上的照片為縮小版本。</p>
+      <div style="overflow:auto"><table class="cr" id="imgTable"></table></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3><span class="dot"></span>內容說明</h3>
+      <p class="credit">鳥類中文名以台灣常用名稱為主（括號內為正式名稱）；體長為大約數字，方便口頭比較。特有種、保育等級參考中華民國野鳥學會臺灣鳥類名錄及農業部公告，如有更新以官方公告為準。影片皆連結 YouTube 原頻道，版權屬原作者。</p>
+    </div>
+  </div>
+</section>
+
+<div class="sign" id="footSign" style="display:none">設計者｜愛迪樂　<b>鍾孟修 職能治療師</b></div>
+</div>
+
+<audio id="aud" preload="none"></audio>
+<script src="data/birds.js"></script>
+<script src="data/media.js"></script>
+<script>
+(function(){
+"use strict";
+const B = window.BIRDS, M = window.MEDIA;
+const $ = s=>document.querySelector(s), $$ = s=>[...document.querySelectorAll(s)];
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {get(k,d){try{const v=localStorage.getItem("birdq_"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("birdq_"+k,JSON.stringify(v))}catch(e){}}};
+const host = location.hostname;
+const CAN_EMBED = /github\.io$/.test(host) || host==="localhost" || host==="127.0.0.1";
+const GROUP = {city:"都市公園",water:"水邊",mountain:"山林",raptor:"老鷹"};
+
+/* ---------- 背景鵝卵石 ---------- */
+function pebbles(){
+  const svg = $("#pebbles"), W = innerWidth, H = innerHeight;
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  let seed = 7; const rnd = ()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+  const cols = ["#1d7fcf","#2a9fd6","#18a5a3","#58c8c2","#0f6fb0","#4bb5e0","#1f8f9a","#7fd3e6"];
+  const cx=W/2, cy=H/2, R=Math.min(W,H)*0.36;
+  const n = Math.round(Math.min(230, W*H/5200));
+  let out = ["<g class='float'>","<g class='float b'>"];
+  let placed=0, tries=0;
+  while(placed<n && tries<n*12){
+    tries++;
+    const x=rnd()*W, y=rnd()*H;
+    const d=Math.hypot(x-cx,y-cy);
+    if(d < R*0.82 && rnd()>0.05) continue;
+    const s = (Math.min(W,H)*0.06)*(0.55+rnd()*1.05);
+    const k=6, pts=[];
+    const rot=rnd()*Math.PI;
+    for(let i=0;i<k;i++){const a=rot+i/k*Math.PI*2, rr=s*(0.72+rnd()*0.45)*(i%2?1:1.18);pts.push([x+Math.cos(a)*rr,y+Math.sin(a)*rr*0.86])}
+    let p=""; for(let i=0;i<k;i++){const a=pts[i],b=pts[(i+1)%k];const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];p+= (i===0?`M${m[0].toFixed(1)},${m[1].toFixed(1)}`:"")+` Q${b[0].toFixed(1)},${b[1].toFixed(1)} ${(((b[0]+pts[(i+2)%k][0])/2)).toFixed(1)},${(((b[1]+pts[(i+2)%k][1])/2)).toFixed(1)}`}
+    const c=cols[Math.floor(rnd()*cols.length)], o=(0.26+rnd()*0.36).toFixed(2);
+    out[placed%2]+=`<path d="${p}Z" fill="${c}" fill-opacity="${o}"/>`;
+    placed++;
+  }
+  svg.innerHTML = out[0]+"</g>"+out[1]+"</g>";
+}
+pebbles(); let rT; addEventListener("resize",()=>{clearTimeout(rT);rT=setTimeout(pebbles,200)});
+
+/* ---------- 狀態 ---------- */
+const st = { mode: store.get("mode","see"), order: store.get("order","seq"), list: B.map((_,i)=>i), pos:0, used:[], filter:"all" };
+function segInit(id,key){
+  $$(`#${id} button`).forEach(b=>{b.classList.toggle("on",b.dataset.v===st[key]);b.onclick=()=>{st[key]=b.dataset.v;store.set(key,st[key]);$$(`#${id} button`).forEach(x=>x.classList.toggle("on",x===b))}});
+}
+segInit("segMode","mode"); segInit("segOrder","order");
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function buildList(startKey){
+  let idx = B.map((b,i)=>i).filter(i=>st.filter==="all"||(st.filter==="endemic"?B[i].status.endemic:B[i].group===st.filter));
+  if(st.order==="rand") shuffle(idx);
+  if(startKey){const k=B.findIndex(b=>b.key===startKey);idx=idx.filter(i=>i!==k);idx.unshift(k)}
+  st.list=idx; st.pos=0;
+}
+
+/* ---------- 換頁 ---------- */
+function show(id){
+  $$(".view").forEach(v=>v.classList.toggle("on",v.id===id));
+  $("#footSign").style.display = id==="home"?"none":"block";
+  document.body.classList.toggle("inner", id!=="home");
+  scrollTo(0,0); stopAudio();
+  if(id==="home") history.replaceState(null,"",location.pathname+location.search);
+}
+document.addEventListener("click",e=>{
+  const g=e.target.closest("[data-go]"); if(!g) return;
+  const v=g.dataset.go;
+  if(v==="start"){ if(st.filter!=="all"&&$("#gallery").classList.contains("on")){} else st.filter="all"; buildList(); openQuiz(); }
+  else { show(v); if(v==="gallery") renderGallery(); }
+});
+
+/* ---------- 音訊 ---------- */
+const aud=$("#aud"); let curBtn=null;
+function audioSrc(b){return "assets/audio/"+b.key+".mp3"}
+function stopAudio(){aud.pause();aud.currentTime=0;setPlayIcon(false)}
+function setPlayIcon(on){$$(".pp,.big-play").forEach(b=>b.innerHTML=on?'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>':'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>');$("#playCall")&&($("#playCall").textContent=on?"停止叫聲":"聽叫聲")}
+function toggleAudio(b){
+  const src=audioSrc(b);
+  if(!aud.paused && aud.dataset.k===b.key){aud.pause();setPlayIcon(false);return}
+  if(aud.dataset.k!==b.key){aud.src=src;aud.dataset.k=b.key}
+  aud.play().then(()=>setPlayIcon(true)).catch(()=>setPlayIcon(false));
+}
+aud.addEventListener("ended",()=>setPlayIcon(false));
+aud.addEventListener("timeupdate",()=>{const t=$(".player .track i"),tm=$(".player .tm");if(t&&aud.duration){t.style.width=(aud.currentTime/aud.duration*100)+"%"}if(tm)tm.textContent=fmt(aud.currentTime)});
+const fmt=s=>{s=Math.floor(s||0);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+
+/* ---------- 猜鳥 ---------- */
+const HINTS=[
+  {k:"size",label:"看體型",tag:"體型"},
+  {k:"color",label:"看顏色",tag:"顏色"},
+  {k:"place",label:"住哪裡",tag:"住哪裡"},
+  {k:"call",label:"怎麼叫",tag:"叫聲"},
+  {k:"fame",label:"有名的事",tag:"有名的事"},
+  {k:"len",label:"名字字數",tag:"名字"},
+];
+const cur=()=>B[st.list[st.pos]];
+function blurPx(){ if(st.mode!=="blur") return 0; const n=st.used.filter(k=>k!=="choice").length; return [26,20,14,9,5,2,0][Math.min(n,6)] }
+function applyPhoto(){
+  const img=$("#qImg"); img.style.filter = blurPx()?`blur(${blurPx()}px) saturate(.9)`:"none"; img.style.transform = blurPx()?"scale(1.12)":"none";
+  $("#qVeil").classList.toggle("hide", st.mode!=="hear");
+}
+function openQuiz(){
+  const b=cur(); st.used=[]; stopAudio();
+  $("#qImg").src="assets/img/"+b.key+".jpg";
+  $("#qProg").innerHTML=`<span class="hide-s">第 </span>${st.pos+1}<span class="hide-s"> 隻</span> / ${st.list.length}`;
+  $("#qNum").innerHTML=`${st.pos+1}<small>/${st.list.length}</small>`;
+  $("#qStars").style.display="none";
+  $("#hintList").innerHTML=""; $("#emptyTip").style.display="";
+  $("#hintBtns").innerHTML = HINTS.map((h,i)=>`<button class="hbtn" data-h="${h.k}"><span class="n">${i+1}</span>${h.label}</button>`).join("")+`<button class="hbtn" data-h="choice" style="grid-column:1/-1"><span class="n">?</span>給三個選項</button>`;
+  $$("#hintBtns .hbtn").forEach(x=>x.onclick=()=>reveal(x.dataset.h));
+  $("#qPrev").disabled = st.pos===0; $("#qPrev").style.opacity = st.pos===0?.4:1;
+  applyPhoto();
+  show("quiz");
+  history.replaceState(null,"","#"+b.key);
+}
+function reveal(k){
+  const b=cur(); if(st.used.includes(k)) return;
+  st.used.push(k);
+  $(`#hintBtns [data-h="${k}"]`).classList.add("used");
+  $("#emptyTip").style.display="none";
+  const h=HINTS.find(x=>x.k===k);
+  let html="";
+  if(k==="len"){ const n=[...b.name].length; html=`名字有 <b>${n}</b> 個字，第一個字是「<b>${esc([...b.name][0])}</b>」。`+(b.taigi?`<br>台語或小名叫「${esc(b.taigi)}」。`:""); }
+  else if(k==="choice"){ html=`是哪一個？<div class="choices">${choicesFor(b).map(n=>`<button data-c="${esc(n)}">${esc(n)}</button>`).join("")}</div>`; }
+  else if(k==="call"){ html=esc(b.hints.call)+` <button class="mini-play" data-play>▶ 播放叫聲</button>`; }
+  else html=esc(b.hints[k]);
+  const li=document.createElement("li"); li.className="k-"+k;
+  li.innerHTML=`<span class="tag">${h?h.tag:"選項"}</span><div>${html}</div>`;
+  $("#hintList").appendChild(li);
+  li.querySelectorAll(".choices button").forEach(c=>c.onclick=()=>{
+    if(c.dataset.c===b.name){c.classList.add("right");setTimeout(()=>showAnswer(),700)}else c.classList.add("wrong");
+  });
+  const pb=li.querySelector("[data-play]"); if(pb) pb.onclick=()=>toggleAudio(b);
+  li.scrollIntoView({block:"nearest",behavior:"smooth"});
+  applyPhoto();
+}
+function choicesFor(b){
+  const others=shuffle(B.filter(x=>x.key!==b.key)); const pick=[b.name];
+  const same=others.filter(x=>x.group===b.group); const pool=[...same,...others];
+  for(const x of pool){ if(pick.length>=3) break; if(!pick.includes(x.name)) pick.push(x.name) }
+  return shuffle(pick);
+}
+function nextHint(){ const h=HINTS.find(h=>!st.used.includes(h.k)); if(h) reveal(h.k); }
+$("#revealBtn").onclick=()=>showAnswer();
+$("#playCall").onclick=()=>toggleAudio(cur());
+$("#veilPlay").onclick=()=>toggleAudio(cur());
+$("#qPrev").onclick=()=>{ if(st.pos>0){st.pos--;openQuiz()} };
+$("#qNext").onclick=()=>goNext();
+function goNext(){ if(st.pos<st.list.length-1){st.pos++;openQuiz()} else { finish() } }
+function finish(){ show("gallery"); renderGallery(); }
+
+/* ---------- 答案 ---------- */
+const ICON_EXT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>';
+function showAnswer(){
+  const b=cur(), m=M[b.key]; stopAudio();
+  const hintsUsed=st.used.filter(k=>k!=="choice").length;
+  const praise = hintsUsed<=1?"厲害！幾乎不用提示就猜到":hintsUsed<=3?`用了 ${hintsUsed} 個提示猜到`:`用了 ${hintsUsed} 個提示，大家一起想出來了`;
+  const q=encodeURIComponent(b.name+" 鳥");
+  const vids=m.yt.map(v=>{
+    const th=`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
+    const url=`https://www.youtube.com/watch?v=${v.id}`;
+    if(CAN_EMBED) return `<div class="vid"><div class="th" data-yt="${v.id}" role="button" tabindex="0" aria-label="播放影片"><img src="${th}" alt="" loading="lazy" onerror="this.remove()"><span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></div><div class="cap"><b>${esc(v.title)}</b><span>${esc(v.ch)}・<a href="${url}" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></span></div></div>`;
+    return `<a class="vid" href="${url}" target="_blank" rel="noopener"><div class="th"><img src="${th}" alt="" loading="lazy" onerror="this.remove()"><span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></div><div class="cap"><b>${esc(v.title)}</b><span>${esc(v.ch)}・到 YouTube 觀看 ↗</span></div></a>`;
+  }).join("");
+  const badges=[`<span class="badge ${b.status.endemic?"end":""}">${esc(b.status.label)}</span>`,`<span class="badge">${GROUP[b.group]}</span>`];
+  if(b.status.note) badges.push(`<span class="badge note">${esc(b.status.note)}</span>`);
+  if(b.taigi) badges.push(`<span class="badge">別名／台語：${esc(b.taigi)}</span>`);
+  const lic = m.img.licurl?`<a href="${m.img.licurl}" target="_blank" rel="noopener">${esc(m.img.lic)}</a>`:esc(m.img.lic);
+  $("#ansBody").innerHTML=`
+  <div class="ans-hero card">
+    <div class="photo-wrap"><div class="photo"><img src="assets/img/${b.key}.jpg" alt="${esc(b.name)}"></div></div>
+    <div>
+      <div class="ans-name"><span class="a">${esc(praise)}，答案是</span><span class="b">${esc(b.name)}</span><span class="c">${esc(b.sci)}</span></div>
+      <div class="badges">${badges.join("")}</div>
+      ${b.formal!==b.name?`<p class="ans-meta">正式名稱：${esc(b.formal)}</p>`:""}
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3><span class="dot"></span>在台灣哪裡看得到</h3><p>${esc(b.where)}</p></div>
+    <div class="card"><h3><span class="dot"></span>吃什麼</h3><p>${esc(b.diet)}</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3><span class="dot"></span>有趣小知識</h3><ul class="facts">${b.facts.map(f=>`<li>${esc(f)}</li>`).join("")}</ul></div>
+    <div class="card"><h3><span class="dot"></span>聊一聊</h3><div class="talk">${b.talk.map(t=>`<div>${esc(t)}</div>`).join("")}<div class="kidq">考考小朋友：${esc(b.kid)}</div></div></div>
+  </div>
+  <div class="card sound"><h3><span class="dot"></span>聽聽牠的叫聲</h3>
+    <div class="player"><button class="pp" aria-label="播放"></button><div class="track"><i></i></div><span class="tm">0:00</span></div>
+    <p class="credit">錄音：${esc(m.snd.rec)}，xeno-canto <a href="https://xeno-canto.org/${m.snd.xc}" target="_blank" rel="noopener">XC${m.snd.xc}</a>${m.snd.tw?"（台灣錄音）":""}，${esc(m.snd.lic)}，本頁剪取前 30 秒。</p>
+    <div class="linkrow">
+      <a class="chip" href="https://xeno-canto.org/species/${(b.xcsp||b.sci).replace(/ /g,"-")}" target="_blank" rel="noopener">${ICON_EXT}xeno-canto 更多錄音</a>
+      <a class="chip" href="https://search.macaulaylibrary.org/catalog?taxonCode=${m.ebird}&mediaType=audio" target="_blank" rel="noopener">${ICON_EXT}麥考利圖書館 錄音</a>
+      <a class="chip" href="https://ebird.org/species/${m.ebird}" target="_blank" rel="noopener">${ICON_EXT}eBird 物種頁</a>
+    </div>
+  </div>
+  <div class="card"><h3><span class="dot"></span>看更多</h3>
+    <div class="linkrow">
+      <a class="chip" href="https://www.google.com/search?tbm=isch&q=${q}" target="_blank" rel="noopener">${ICON_EXT}Google 圖片</a>
+      <a class="chip" href="https://www.youtube.com/results?search_query=${encodeURIComponent(b.name+" 鳥 #shorts")}" target="_blank" rel="noopener">${ICON_EXT}YouTube 短影音</a>
+      <a class="chip" href="https://zh.wikipedia.org/w/index.php?variant=zh-tw&search=${encodeURIComponent(b.wiki||b.sci)}" target="_blank" rel="noopener">${ICON_EXT}維基百科</a>
+    </div>
+    <div class="vids">${vids}</div>
+    <p class="credit" style="margin-top:12px">照片：${esc(m.img.author)}，${lic}，<a href="${m.img.page}" target="_blank" rel="noopener">Wikimedia Commons</a></p>
+  </div>
+  <div class="ans-nav"><button class="btn ghost" id="aBack2">回到提示</button><button class="btn" id="aNext2">下一隻鳥</button></div>`;
+  $(".player .pp").onclick=()=>toggleAudio(b);
+  $(".player .track").onclick=e=>{ if(aud.dataset.k!==b.key){toggleAudio(b);return} const r=e.currentTarget.getBoundingClientRect(); if(aud.duration) aud.currentTime=(e.clientX-r.left)/r.width*aud.duration };
+  setPlayIcon(false);
+  $$("[data-yt]").forEach(t=>{const go=()=>{t.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${t.dataset.yt}?autoplay=1&rel=0" title="YouTube 影片" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;stopAudio()};t.onclick=go;t.onkeydown=e=>{if(e.key==="Enter")go()}});
+  $("#aBack2").onclick=$("#aBack").onclick=()=>{show("quiz")};
+  $("#aNext2").onclick=$("#aNext").onclick=()=>goNext();
+  $("#aProg").innerHTML=`<span class="hide-s">第 </span>${st.pos+1}<span class="hide-s"> 隻</span> / ${st.list.length}`;
+  $("#aNext").lastChild && ($("#aNext").firstChild.textContent = st.pos<st.list.length-1?"下一隻鳥":"看圖鑑");
+  $("#aNext2").textContent = st.pos<st.list.length-1?"下一隻鳥":"看圖鑑";
+  const done=store.get("done",[]); if(!done.includes(b.key)){done.push(b.key);store.set("done",done)}
+  show("answer");
+  history.replaceState(null,"","#"+b.key);
+}
+
+/* ---------- 圖鑑 ---------- */
+function renderGallery(){
+  $$("#gFilter button").forEach(x=>{x.classList.toggle("on",x.dataset.v===st.filter);x.style.background=x.dataset.v===st.filter?"var(--mist)":"#fff";x.onclick=()=>{st.filter=x.dataset.v;renderGallery()}});
+  const list=B.filter(b=>st.filter==="all"||(st.filter==="endemic"?b.status.endemic:b.group===st.filter));
+  $("#gGrid").innerHTML=list.map(b=>`<button class="gitem" data-k="${b.key}"><img src="assets/img/${b.key}.jpg" alt="${esc(b.name)}" loading="lazy"><b>${esc(b.name)}</b><span>${esc(b.sci.split("（")[0])}</span>${b.status.endemic?'<span class="e">特有種</span>':""}</button>`).join("");
+  $$("#gGrid .gitem").forEach(x=>x.onclick=()=>{buildList(x.dataset.k);openQuiz()});
+}
+
+/* ---------- 來源表 ---------- */
+$("#sndTable").innerHTML="<tr><th>鳥</th><th>錄音者</th><th>xeno-canto</th><th>錄音地</th><th>授權</th></tr>"+B.map(b=>{const s=M[b.key].snd;return `<tr><td>${esc(b.name)}</td><td>${esc(s.rec)}</td><td><a href="https://xeno-canto.org/${s.xc}" target="_blank" rel="noopener">XC${s.xc}</a></td><td>${s.tw?"台灣":"其他地區"}</td><td>${esc(s.lic)}</td></tr>`}).join("");
+$("#imgTable").innerHTML="<tr><th>鳥</th><th>攝影者</th><th>授權</th><th>原始檔案</th></tr>"+B.map(b=>{const i=M[b.key].img;return `<tr><td>${esc(b.name)}</td><td>${esc(i.author)}</td><td>${i.licurl?`<a href="${i.licurl}" target="_blank" rel="noopener">${esc(i.lic)}</a>`:esc(i.lic)}</td><td><a href="${i.page}" target="_blank" rel="noopener">Commons</a></td></tr>`}).join("");
+
+/* ---------- 鍵盤 ---------- */
+addEventListener("keydown",e=>{
+  if(e.target.closest("input,textarea")) return;
+  const q=$("#quiz").classList.contains("on"), a=$("#answer").classList.contains("on");
+  if(q&&(e.key===" "||e.key==="ArrowDown")){e.preventDefault();nextHint()}
+  else if(q&&e.key==="Enter"){e.preventDefault();showAnswer()}
+  else if((q||a)&&e.key==="ArrowRight"){goNext()}
+  else if(q&&e.key==="ArrowLeft"){$("#qPrev").click()}
+  else if((q||a)&&(e.key==="p"||e.key==="P")){toggleAudio(cur())}
+  else if(e.key==="Escape"){show("home")}
+});
+
+/* ---------- 網址 #key 直接開 ---------- */
+function fromHash(){const hk=decodeURIComponent(location.hash.slice(1)); if(hk && B.some(b=>b.key===hk) && !(st.list.length && cur().key===hk && !$("#home").classList.contains("on"))){buildList(hk);openQuiz()}}
+fromHash(); addEventListener("hashchange",fromHash);
+})();
+</script>
+</body>
+</html>
