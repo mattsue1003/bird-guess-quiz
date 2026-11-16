@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>猜猜我是誰 台灣鳥朋友</title>
-<meta name="description" content="20 種台灣常見鳥的看圖、聽聲音猜鳥活動：一步一步給提示、揭曉後看知識、聽真實叫聲、看影片。適合長輩與小朋友團體帶領。">
+<meta name="description" content="40 種台灣常見鳥的看圖、聽聲音猜鳥活動：一步一步給提示、揭曉後看知識、聽真實叫聲、看影片。適合長輩與小朋友團體帶領。">
 <meta property="og:title" content="猜猜我是誰｜台灣鳥朋友">
 <meta property="og:description" content="一步一步給提示的猜鳥活動，附真實叫聲、影片與聊天題。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -255,7 +255,7 @@ table.cr th{color:var(--deep)}
 <section class="view on" id="home">
   <div class="bubble">
     <h1 class="ttl"><span class="t1">一起來</span><span class="t2">猜猜我是誰</span><span class="t3">台灣鳥朋友</span></h1>
-    <p class="lede">20 種台灣常見的鳥。先看照片或先聽叫聲，按鈕一個一個打開提示，大家猜到了再揭曉答案，一起聊聊和這隻鳥有關的回憶。</p>
+    <p class="lede">40 種台灣常見的鳥。先看照片或先聽叫聲，按鈕一個一個打開提示，大家猜到了再揭曉答案，一起聊聊和這隻鳥有關的回憶。</p>
     <div class="home-actions">
       <button class="btn" data-go="start"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>開始猜鳥</button>
       <button class="btn ghost" data-go="gallery">鳥朋友圖鑑</button>
@@ -263,6 +263,7 @@ table.cr th{color:var(--deep)}
     <div class="opts">
       <span>玩法 <span class="seg" id="segMode"><button data-v="see" class="on">看照片猜</button><button data-v="blur">模糊照片</button><button data-v="hear">先聽叫聲</button></span></span>
       <span>順序 <span class="seg" id="segOrder"><button data-v="seq" class="on">依序</button><button data-v="rand">隨機</button></span></span>
+      <span>一次玩 <span class="seg" id="segCount"><button data-v="8">8 隻</button><button data-v="15">15 隻</button><button data-v="all" class="on">全部</button></span></span>
     </div>
   </div>
   <div class="home-links">
@@ -322,10 +323,10 @@ table.cr th{color:var(--deep)}
     <button class="btn small" data-go="start">開始猜鳥</button>
   </div>
   <div class="wrap">
-    <h2 class="page-title"><span class="a">20 位</span><span class="b">鳥朋友圖鑑</span></h2>
+    <h2 class="page-title"><span class="a">40 位</span><span class="b">鳥朋友圖鑑</span></h2>
     <p class="qsub">點一隻鳥，直接從牠開始猜；也可以只挑某一類來玩（例如今天只玩「水邊的鳥」）。</p>
     <div class="filters seg" id="gFilter" style="background:transparent;padding:0;gap:8px">
-      <button data-v="all" class="on chip">全部</button><button data-v="city" class="chip">都市公園</button><button data-v="water" class="chip">水邊</button><button data-v="mountain" class="chip">山林</button><button data-v="raptor" class="chip">老鷹</button><button data-v="endemic" class="chip">台灣特有種</button>
+      <button data-v="all" class="on chip">全部</button><button data-v="city" class="chip">都市公園</button><button data-v="water" class="chip">水邊</button><button data-v="mountain" class="chip">山林</button><button data-v="raptor" class="chip">猛禽・貓頭鷹</button><button data-v="endemic" class="chip">台灣特有種</button>
     </div>
     <div class="ggrid" id="gGrid"></div>
   </div>
@@ -350,7 +351,7 @@ table.cr th{color:var(--deep)}
       <div class="card"><h3><span class="dot"></span>台灣生物多樣性網絡 TBN</h3><p>台灣的生物分布查詢平台，可以查某種鳥在台灣哪些地方被記錄過。它主要是「分布資料」，不是聲音資料庫，適合回答「這種鳥在我們附近有沒有？」。</p><a class="chip" href="https://www.tbn.org.tw/" target="_blank" rel="noopener">TBN 網站 ↗</a></div>
     </div>
     <div class="card" style="margin-top:18px">
-      <h3><span class="dot"></span>本網頁 20 隻鳥的錄音</h3>
+      <h3><span class="dot"></span>本網頁 40 隻鳥的錄音</h3>
       <p class="credit" style="margin-bottom:10px">錄音皆取自 xeno-canto，採 CC BY-NC-SA 授權；為了上課方便，只剪取前 30 秒並調整音量。點錄音編號可到原始頁面聽完整版本。</p>
       <div style="overflow:auto"><table class="cr" id="sndTable"></table></div>
     </div>
@@ -377,7 +378,7 @@ table.cr th{color:var(--deep)}
         </ol></div>
       <div class="card"><h3><span class="dot"></span>帶領小撇步</h3>
         <ol class="steps">
-          <li>一次玩 6–8 隻就夠，留時間聊天比答對更重要。</li>
+          <li>一次玩 6–8 隻就夠，留時間聊天比答對更重要。首頁可選「一次玩 8 隻」，依序模式會自動跳過已經玩過的鳥，下次接著玩。</li>
           <li>長輩常用台語名或小名（厝鳥仔、白鷺鷥、加令），說出小名也算答對。</li>
           <li>失智症長輩可改用「給選項」二選一或三選一，降低挫折感。</li>
           <li>搭配動作：學鳥拍翅膀、學白鷺鷥單腳站，順便活動身體。</li>
@@ -401,6 +402,7 @@ table.cr th{color:var(--deep)}
 
 <audio id="aud" preload="none"></audio>
 <script src="data/birds.js"></script>
+<script src="data/birds2.js"></script>
 <script src="data/media.js"></script>
 <script>
 (function(){
@@ -411,7 +413,7 @@ const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;
 const store = {get(k,d){try{const v=localStorage.getItem("birdq_"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("birdq_"+k,JSON.stringify(v))}catch(e){}}};
 const host = location.hostname;
 const CAN_EMBED = /github\.io$/.test(host) || host==="localhost" || host==="127.0.0.1";
-const GROUP = {city:"都市公園",water:"水邊",mountain:"山林",raptor:"老鷹"};
+const GROUP = {city:"都市公園",water:"水邊",mountain:"山林",raptor:"猛禽"};
 
 /* ---------- 背景鵝卵石 ---------- */
 function pebbles(){
@@ -442,17 +444,19 @@ function pebbles(){
 pebbles(); let rT; addEventListener("resize",()=>{clearTimeout(rT);rT=setTimeout(pebbles,200)});
 
 /* ---------- 狀態 ---------- */
-const st = { mode: store.get("mode","see"), order: store.get("order","seq"), list: B.map((_,i)=>i), pos:0, used:[], filter:"all" };
+const st = { mode: store.get("mode","see"), order: store.get("order","seq"), count: store.get("count","all"), list: B.map((_,i)=>i), pos:0, used:[], filter:"all" };
 function segInit(id,key){
   $$(`#${id} button`).forEach(b=>{b.classList.toggle("on",b.dataset.v===st[key]);b.onclick=()=>{st[key]=b.dataset.v;store.set(key,st[key]);$$(`#${id} button`).forEach(x=>x.classList.toggle("on",x===b))}});
 }
-segInit("segMode","mode"); segInit("segOrder","order");
+segInit("segMode","mode"); segInit("segOrder","order"); segInit("segCount","count");
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function buildList(startKey){
   let idx = B.map((b,i)=>i).filter(i=>st.filter==="all"||(st.filter==="endemic"?B[i].status.endemic:B[i].group===st.filter));
   if(st.order==="rand") shuffle(idx);
   if(startKey){const k=B.findIndex(b=>b.key===startKey);idx=idx.filter(i=>i!==k);idx.unshift(k)}
+  else if(st.count!=="all" && st.order==="seq" && st.filter==="all"){ const n=+st.count, done=store.get("done",[]); const rest=idx.filter(i=>!done.includes(B[i].key)); idx=(rest.length>=n?rest:idx); }
+  if(st.count!=="all" && !startKey) idx=idx.slice(0,+st.count);
   st.list=idx; st.pos=0;
 }
 
