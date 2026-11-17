@@ -507,7 +507,7 @@ function applyPhoto(){
 }
 function openQuiz(){
   const b=cur(); st.used=[]; stopAudio();
-  $("#qImg").src="assets/img/"+b.key+".jpg";
+  $("#qImg").src="assets/img/sq/"+b.key+".jpg";
   $("#qProg").innerHTML=`<span class="hide-s">第 </span>${st.pos+1}<span class="hide-s"> 隻</span> / ${st.list.length}`;
   $("#qNum").innerHTML=`${st.pos+1}<small>/${st.list.length}</small>`;
   $("#qStars").style.display="none";
@@ -574,7 +574,7 @@ function showAnswer(){
   const lic = m.img.licurl?`<a href="${m.img.licurl}" target="_blank" rel="noopener">${esc(m.img.lic)}</a>`:esc(m.img.lic);
   $("#ansBody").innerHTML=`
   <div class="ans-hero card">
-    <div class="photo-wrap"><div class="photo"><img src="assets/img/${b.key}.jpg" alt="${esc(b.name)}"></div></div>
+    <div class="photo-wrap"><div class="photo"><img src="assets/img/sq/${b.key}.jpg" alt="${esc(b.name)}"></div></div>
     <div>
       <div class="ans-name"><span class="a">${esc(praise)}，答案是</span><span class="b">${esc(b.name)}</span><span class="c">${esc(b.sci)}</span></div>
       <div class="badges">${badges.join("")}</div>
@@ -626,7 +626,7 @@ function showAnswer(){
 function renderGallery(){
   $$("#gFilter button").forEach(x=>{x.classList.toggle("on",x.dataset.v===st.filter);x.style.background=x.dataset.v===st.filter?"var(--mist)":"#fff";x.onclick=()=>{st.filter=x.dataset.v;renderGallery()}});
   const list=B.filter(b=>st.filter==="all"||(st.filter==="endemic"?b.status.endemic:b.group===st.filter));
-  $("#gGrid").innerHTML=list.map(b=>`<button class="gitem" data-k="${b.key}"><img src="assets/img/${b.key}.jpg" alt="${esc(b.name)}" loading="lazy"><b>${esc(b.name)}</b><span>${esc(b.sci.split("（")[0])}</span>${b.status.endemic?'<span class="e">特有種</span>':""}</button>`).join("");
+  $("#gGrid").innerHTML=list.map(b=>`<button class="gitem" data-k="${b.key}"><img src="assets/img/sq/${b.key}.jpg" alt="${esc(b.name)}" loading="lazy"><b>${esc(b.name)}</b><span>${esc(b.sci.split("（")[0])}</span>${b.status.endemic?'<span class="e">特有種</span>':""}</button>`).join("");
   $$("#gGrid .gitem").forEach(x=>x.onclick=()=>{buildList(x.dataset.k);openQuiz()});
 }
 
